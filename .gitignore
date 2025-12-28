@@ -1,5 +1,3 @@
-*.sln
-*.xcodeproj
 *.inc
 *.obj
 *.tlog
@@ -8,3 +6,4 @@
 *.exe
 *.recipe
 *.xcodeproj
+*.DS_Store
