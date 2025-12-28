@@ -30,6 +30,7 @@ MainComponent::MainComponent()
 	
 	if (auto* device = deviceManager.getCurrentAudioDevice())
 	{
+		auto names = device->getInputChannelNames();
 		juce::BigInteger activeChannels = device->getActiveInputChannels();
 		std::vector<int> activeInputIndices;
 		for (int ch = 0; ch <= activeChannels.getHighestBit(); ++ch)
@@ -43,7 +44,7 @@ MainComponent::MainComponent()
 
 		// Tell each mixer the actual indices
 		for (auto* ui : mixerUIs)
-			ui->setActiveInputs(activeInputIndices);
+			ui->setActiveInputs(activeInputIndices, names);
 	
 		
 	}
@@ -203,6 +204,7 @@ void MainComponent::changeListenerCallback (juce::ChangeBroadcaster* source)
 	activeInputCount = 0;
 	if (auto* device = deviceManager.getCurrentAudioDevice())
 	{
+		auto names = device->getInputChannelNames();
 		juce::BigInteger activeChannels = device->getActiveInputChannels();
 		std::vector<int> activeInputIndices;
 
@@ -215,7 +217,7 @@ void MainComponent::changeListenerCallback (juce::ChangeBroadcaster* source)
 
 		// Tell each mixer the actual indices
 		for (auto* ui : mixerUIs)
-			ui->setActiveInputs(activeInputIndices);
+			ui->setActiveInputs(activeInputIndices, names);
 	}
 
 	updateMixerRoutings();

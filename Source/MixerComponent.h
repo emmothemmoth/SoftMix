@@ -9,6 +9,13 @@
 #include "FaderLookAndFeel.h"
 #include "MixerMeterComponent.h"
 
+struct ChannelStrip
+{
+	std::unique_ptr<juce::Slider> fader;
+	std::unique_ptr<juce::Label> label;
+	bool Muted = false;
+};
+
 class MixerComponent : public juce::Component,
 					   public juce::Timer
 {
@@ -19,7 +26,7 @@ public:
 	void mouseWheelMove (const juce::MouseEvent& event,
 						 const juce::MouseWheelDetails& wheel) override;
 
-	void setActiveInputs (const std::vector<int>& inputChannels);
+	void setActiveInputs (const std::vector<int>& inputChannels, const juce::StringArray& channelNames);
 	void resized() override;
 	void timerCallback() override;
 	
@@ -28,13 +35,14 @@ public:
 private:
 	Mixer& mixer;
 
-	std::vector<std::unique_ptr<juce::Slider>> faders;
+	//std::vector<std::unique_ptr<juce::Slider>> faders;
+	std::vector<ChannelStrip> channels;
 	std::unique_ptr<FaderLookAndFeel> faderLookAndFeel;
 	
 	juce::Viewport viewport;
 	juce::Component faderContainer;
 	std::unique_ptr<MixerMeterComponent> meters;
-	static constexpr int meterWidth = 40; // fixed width for all meters
+	static constexpr int meterWidth = 40;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MixerComponent)
 };

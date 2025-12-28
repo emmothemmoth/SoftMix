@@ -98,3 +98,26 @@ void FaderLookAndFeel::drawLinearSlider(juce::Graphics& g,
 	);
 }
 
+void FaderLookAndFeel::drawLabel(juce::Graphics &g, juce::Label &label)
+{
+	g.fillAll (label.findColour (juce::Label::backgroundColourId));
+
+			if (! label.isBeingEdited())
+			{
+				auto alpha = label.isEnabled() ? 1.0f : 0.5f;
+				const juce::Font font = label.getFont();
+
+				g.setColour (label.findColour (juce::Label::textColourId).withMultipliedAlpha (alpha));
+				g.setFont (font);
+
+				auto textArea = label.getBorderSize().subtractedFrom (label.getLocalBounds());
+
+				g.drawText (label.getText(), textArea, label.getJustificationType(), true);
+
+				// Optional: Draw a subtle border to show it's interactable
+				g.setColour (label.findColour (juce::Label::outlineColourId).withAlpha (0.2f));
+				g.drawRect (label.getLocalBounds());
+			}
+}
+
+

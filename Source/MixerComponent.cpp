@@ -18,8 +18,11 @@ MixerComponent::MixerComponent(Mixer& m)
 MixerComponent::~MixerComponent()
 {
 	// IMPORTANT: Detach LookAndFeel before destruction
-	for (auto& fader : faders)
-		fader->setLookAndFeel(nullptr);
+	for (auto& channel : channels)
+		{
+			channel.fader->setLookAndFeel(nullptr);
+			channel.label->setLookAndFeel(nullptr);
+		}
 }
 
 void MixerComponent::mouseWheelMove (const juce::MouseEvent& event,
@@ -28,35 +31,47 @@ void MixerComponent::mouseWheelMove (const juce::MouseEvent& event,
 	viewport.mouseWheelMove(event, wheel);
 }
 
-void MixerComponent::setActiveInputs (const std::vector<int>& inputChannels)
+void MixerComponent::setActiveInputs (const std::vector<int>& inputChannels, const juce::StringArray& channelNames)
 {
-	faders.clear();
+	channels.clear();
 
 	for (int i = 0; i < inputChannels.size(); ++i)
 		{
 			int ch = inputChannels[i];
-			auto slider = std::make_unique<juce::Slider>();
-			auto* sliderPtr = slider.get();
+			ChannelStrip channel;
+			channel.fader = std::make_unique<juce::Slider>();
+			auto* sliderPtr = channel.fader.get();
 
-			slider->setSliderStyle(juce::Slider::LinearVertical);
-			slider->setRange(0.0, 1.0, 0.001);
-			slider->setValue(0.0);
-			slider->setSkewFactorFromMidPoint(0.25); // optional audio taper
-			slider->setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-			slider->setLookAndFeel(faderLookAndFeel.get());
-			slider->setInterceptsMouseClicks(true, false);
-			slider->setMouseDragSensitivity(1);
-			slider->setVelocityBasedMode(false);
-			slider->setScrollWheelEnabled(false);
-			slider->setName("In " + juce::String(ch + 1));
-
-			slider->onValueChange = [this, ch, sliderPtr]()
+			channel.fader->setSliderStyle(juce::Slider::LinearVertical);
+			channel.fader->setRange(0.0, 1.0, 0.001);
+			channel.fader->setValue(0.0);
+			channel.fader->setSkewFactorFromMidPoint(0.25); // optional audio taper
+			channel.fader->setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+			channel.fader->setLookAndFeel(faderLookAndFeel.get());
+			channel.fader->setInterceptsMouseClicks(true, false);
+			channel.fader->setMouseDragSensitivity(1);
+			channel.fader->setVelocityBasedMode(false);
+			channel.fader->setScrollWheelEnabled(false);
+			channel.fader->setName(channelNames[ch]);
+			channel.fader->onValueChange = [this, ch, sliderPtr]()
 			{
 				mixer.setGain(ch, (float) sliderPtr->getValue());
 			};
-
-			faderContainer.addAndMakeVisible(*slider);
-			faders.push_back(std::move(slider));
+			faderContainer.addAndMakeVisible(*channel.fader);
+		
+			channel.label = std::make_unique<juce::Label>();
+			channel.label->setText(channelNames[ch], juce::NotificationType::dontSendNotification);
+			channel.label->setEditable(false, true, false);
+			channel.label->setJustificationType(juce::Justification::centred);
+			channel.label->setInterceptsMouseClicks(true, false);
+			channel.label->setLookAndFeel(faderLookAndFeel.get());
+			auto* labelPtr = channel.label.get();
+			channel.label->onTextChange = [labelPtr, sliderPtr]()
+			{
+				sliderPtr->setName(labelPtr	->getText());
+			};
+			faderContainer.addAndMakeVisible(*channel.label);
+			channels.push_back(std::move(channel));
 		}
 
 		resized();
@@ -66,18 +81,21 @@ void MixerComponent::resized()
 {
 	const int channelWidth = 48;
 	const int channelSpacing = 4;
-	const int totalFadersWidth = static_cast<int>((channelWidth + channelSpacing) * faders.size());
+	const int labelHeight = 22;
+	const int totalFadersWidth = static_cast<int>((channelWidth + channelSpacing) * channels.size());
 
 	// faderContainer inside viewport
 	faderContainer.setBounds(0, 0, totalFadersWidth, getHeight());
 	viewport.setBounds(0, 0, getWidth() - meterWidth, getHeight());
 
-	for (int i = 0; i < (int) faders.size(); ++i)
+	for (int i = 0; i < (int) channels.size(); ++i)
 	{
-		faders[i]->setBounds(i * (channelWidth + channelSpacing),
+		auto xPos = i * (channelWidth + channelSpacing);
+		channels[i].fader->setBounds(i * (channelWidth + channelSpacing),
 							 20,
 							 channelWidth,
 							 getHeight() - 20);
+		channels[i].label->setBounds(xPos, getHeight() - labelHeight, channelWidth, labelHeight);
 	}
 
 	// Meter area to the right of the faders

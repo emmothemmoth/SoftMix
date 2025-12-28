@@ -22,11 +22,13 @@ public:
 							  float maxSliderPos,
 							  const juce::Slider::SliderStyle style,
 							  juce::Slider& slider) override;
+	void drawLabel(juce::Graphics& g, juce::Label& label) override;
 
 private:
 	juce::Colour trackColour;
 	juce::Image channelImage;
 	juce::Image knobImage;
+	juce::Rectangle<int> textArea;
 	const int textAreaHeight = 20;
 	const int knobXOffset = 3;
 };
