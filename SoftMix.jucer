@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="mNDkxB" name="SoftMix" projectType="guiapp" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyWebsite="jesseemmoth.se">
+  <MAINGROUP id="QBgQrh" name="SoftMix">
+    <GROUP id="{555EFDEF-709E-C8F3-B22E-0CF35B5B87E7}" name="Resources">
+      <FILE id="u9HfHs" name="channelBigv3.png" compile="0" resource="1"
+            file="Resources/channelBigv3.png"/>
+      <FILE id="cGKGDk" name="fader_icon_gold.png" compile="0" resource="1"
+            file="Resources/fader_icon_gold.png"/>
+    </GROUP>
+    <GROUP id="{9BCCC86D-9376-6D3E-5B5F-3EBBB8E280E9}" name="Source">
+      <FILE id="gQ74Tt" name="MixerMeterComponent.cpp" compile="1" resource="0"
+            file="Source/MixerMeterComponent.cpp"/>
+      <FILE id="lvwWkn" name="MixerMeterComponent.h" compile="0" resource="0"
+            file="Source/MixerMeterComponent.h"/>
+      <FILE id="HujQO9" name="FaderLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/FaderLookAndFeel.cpp"/>
+      <FILE id="lGIA4c" name="FaderLookAndFeel.h" compile="0" resource="0"
+            file="Source/FaderLookAndFeel.h"/>
+      <FILE id="UqPy23" name="Mixer.cpp" compile="1" resource="0" file="Source/Mixer.cpp"/>
+      <FILE id="yu0Bdm" name="Mixer.h" compile="0" resource="0" file="Source/Mixer.h"/>
+      <FILE id="FxeCYC" name="MixerComponent.cpp" compile="1" resource="0"
+            file="Source/MixerComponent.cpp"/>
+      <FILE id="O7kCjb" name="MixerComponent.h" compile="0" resource="0"
+            file="Source/MixerComponent.h"/>
+      <FILE id="hW3IW1" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="eaA4Kj" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="LTS60I" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" microphonePermissionNeeded="1" microphonePermissionsText="This app requires audio input access for routing and mixing.">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="SoftMix_Debug"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="SoftMix"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../../../Applications/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+</JUCERPROJECT>
